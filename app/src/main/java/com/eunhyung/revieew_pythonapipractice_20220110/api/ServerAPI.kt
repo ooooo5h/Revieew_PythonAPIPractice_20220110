@@ -14,7 +14,7 @@ class ServerAPI {
     companion object {
 
 //        이 클래스 내부에서만 사용할 예정 => private 처리
-        private val BASE_URL = "https://api.gudoc.in"
+        private val BASE_URL = "http://192.168.35.199:5000"  // 우리 컴퓨터 안에서 돌아가는 파이썬 Flask 서버
         private var retrofit : Retrofit? = null  // 서버 연결을 전담하는 변수인데, 기본적으로 안만든 상태(null)처리
 
 //        retrofit 변수에 환경설정 + 객체화해서 다른 곳에서는 쉽게 가져다 쓸 수 있게 함수를 만들자
