@@ -2,7 +2,13 @@ package com.eunhyung.revieew_pythonapipractice_20220110
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.eunhyung.revieew_pythonapipractice_20220110.models.BasicResponse
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUpActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,6 +17,40 @@ class SignUpActivity : BaseActivity() {
 
         btnSubmit.setOnClickListener {
 
+            val inputEmail = edtEmail.text.toString()
+            val inputPw = edtPassword.text.toString()
+            val inputNick = edtNickname.text.toString()
+
+            apiList.getRequestSignUp(inputEmail, inputPw, inputNick).enqueue(object : Callback<BasicResponse>{
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+                    if (response.isSuccessful){
+                        
+                        val br = response.body()!!
+                        val signUpUserNick = br.data.user.nickname
+
+                        Toast.makeText(mContext, "${signUpUserNick}님 회원가입 성공", Toast.LENGTH_SHORT).show()
+
+                        finish()
+                    }
+                    else {
+
+//                        서버가 400등의 실패 코드를 준 경우
+                        val jsonObj = JSONObject(response.errorBody()!!.string())
+                        val message = jsonObj.getString("message")
+                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                    }
+                    
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                    
+                }
+
+
+            })
 
         }
     }

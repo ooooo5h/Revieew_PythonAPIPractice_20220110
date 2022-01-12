@@ -1,10 +1,12 @@
 package com.eunhyung.revieew_pythonapipractice_20220110
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.eunhyung.revieew_pythonapipractice_20220110.models.BasicResponse
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,6 +15,12 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        btnSignUp.setOnClickListener {
+
+            val myIntent = Intent(mContext, SignUpActivity::class.java)
+            startActivity(myIntent)
+        }
 
         btnLogin.setOnClickListener {
 
@@ -31,6 +39,11 @@ class MainActivity : BaseActivity() {
                         val login_nickname = br.data.user.nickname
 
                         Toast.makeText(mContext, "${login_nickname}님 로그인 성공", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+
+                        val jsonObj = JSONObject(response.errorBody()!!.string())
+                        Toast.makeText(mContext, jsonObj.getString("message"), Toast.LENGTH_SHORT).show()
                     }
 
                 }
