@@ -38,6 +38,11 @@ class LoginActivity : BaseActivity() {
                         val login_nickname = br.data.user.nickname
 
                         Toast.makeText(mContext, "${login_nickname}님 로그인 성공", Toast.LENGTH_SHORT).show()
+
+                        val myIntent = Intent(mContext, MainActivity::class.java)
+                        startActivity(myIntent)
+
+                        finish()
                     }
                     else {
 
